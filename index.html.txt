@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffe6eb;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    /* Hearts */
+    .heart {
+        position: fixed;
+        color: #ff4d6d;
+        font-size: 20px;
+        animation: floatUp 6s linear infinite;
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        from {
+            transform: translateY(100vh);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(-10vh);
+            opacity: 0;
+        }
+    }
+
+    /* Confetti */
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: red;
+        top: -10px;
+        animation: fall 3s linear forwards;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh) rotate(720deg);
+        }
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        position: relative;
+        width: 350px;
+        z-index: 2;
+    }
+
+    img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        color: #b3003b;
+    }
+
+    button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+    }
+
+    #noBtn {
+        background: white;
+        color: #ff4d6d;
+        border: 2px solid #ff4d6d;
+        position: absolute;
+        right: 40px;
+        top: 250px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <img src="bg.jpg">
+    <h2>Will you be my Valentine? ❤️</h2>
+
+    <button id="yesBtn" onclick="yesClicked()">Yes 🌹</button>
+    <button id="noBtn">No 🙅‍♂️</button>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+
+    document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+
+        const distance = Math.hypot(
+            e.clientX - (rect.left + rect.width / 2),
+            e.clientY - (rect.top + rect.height / 2)
+        );
+
+        if (distance < 140) {
+            const maxX = window.innerWidth - 120;
+            const maxY = window.innerHeight - 60;
+
+            noBtn.style.position = "fixed";
+            noBtn.style.left = Math.random() * maxX + "px";
+            noBtn.style.top = Math.random() * maxY + "px";
+        }
+    });
+
+    function yesClicked() {
+
+        document.querySelector(".card").innerHTML = `
+            <img src="yes.jpg">
+            <h2>Yay! ❤️ Love you!</h2>
+        `;
+
+        startConfetti();
+    }
+
+    /* Hearts generator */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 400);
+
+    /* Confetti generator */
+    function startConfetti() {
+        for (let i = 0; i < 120; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti");
+
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.backgroundColor =
+                ["#ff4d6d", "#ff99ac", "#ffd6e0", "#c9184a", "#ffb3c1"][Math.floor(Math.random()*5)];
+
+            confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 3000);
+        }
+    }
+</script>
+
+</body>
+</html>
