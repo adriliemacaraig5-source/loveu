@@ -90,6 +90,7 @@
         color: white;
     }
 
+    /* ✅ FIXED SIZE NO BUTTON */
     #noBtn {
         background: white;
         color: #ff4d6d;
@@ -97,6 +98,9 @@
         position: absolute;
         right: 40px;
         top: 250px;
+        width: 120px;
+        height: 45px;
+        white-space: nowrap;
     }
 </style>
 </head>
@@ -127,6 +131,8 @@
             const maxY = window.innerHeight - 60;
 
             noBtn.style.position = "fixed";
+            noBtn.style.width = "120px";
+            noBtn.style.height = "45px";
             noBtn.style.left = Math.random() * maxX + "px";
             noBtn.style.top = Math.random() * maxY + "px";
         }
